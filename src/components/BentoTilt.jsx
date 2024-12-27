@@ -1,17 +1,17 @@
-import React, { useRef, useState } from 'react'
-import { useRaf } from 'react-use'
+import React, { useRef, useState } from "react";
+import { useRaf } from "react-use";
 
 // 3d tilt effect for bento cards
-const BentoTilt = ({children, className = ''}) => {
+const BentoTilt = ({ children, className = "" }) => {
+    const [transformStyle, setTransformStyle] = useState("");
 
-    const [transformStyle, setTransformStyle] = useState('')
+    const itemRef = useRef();
 
-    const itemRef = useRef()
-    
-    const handleMouseMove = (e) =>{
-        if(!itemRef.current)    return;
+    const handleMouseMove = (e) => {
+        if (!itemRef.current) return;
 
-        const { left, top, width, height } = itemRef.current.getBoundingClientRect();
+        const { left, top, width, height } =
+            itemRef.current.getBoundingClientRect();
 
         const relativeX = (e.clientX - left) / width;
         const relativeY = (e.clientY - top) / height;
@@ -19,21 +19,26 @@ const BentoTilt = ({children, className = ''}) => {
         const tiltX = (relativeY - 0.5) * 15;
         const tiltY = (relativeX - 0.5) * -15;
 
-        const newTransform = `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(0.98, 0.98, 0.98)`
+        const newTransform = `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(0.98, 0.98, 0.98)`;
 
-        setTransformStyle(newTransform)
-    }
+        setTransformStyle(newTransform);
+    };
 
-    const handleMouseLeave= () =>{
-        setTransformStyle('')
-    }
+    const handleMouseLeave = () => {
+        setTransformStyle("");
+    };
 
+    return (
+        <div
+            className={className}
+            ref={itemRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ transform: transformStyle }}
+        >
+            {children}
+        </div>
+    );
+};
 
-  return (
-    <div className={className} ref={itemRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} style={{transform: transformStyle}}>
-       {children}
-    </div>
-  )
-}
-
-export default BentoTilt
+export default BentoTilt;
