@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 
 // 3d tilt effect for bento cards
 // eslint-disable-next-line react/prop-types
-const BentoTilt = ({ children, className = "" }) => {
+const TiltFast = ({ children, className = "" }) => {
     const [transformStyle, setTransformStyle] = useState("");
 
     const itemRef = useRef();
@@ -16,8 +16,8 @@ const BentoTilt = ({ children, className = "" }) => {
         const relativeX = (e.clientX - left) / width;
         const relativeY = (e.clientY - top) / height;
 
-        const tiltX = (relativeY - 0.5) * 15;
-        const tiltY = (relativeX - 0.5) * -15;
+        const tiltX = (relativeY - 0.5) * 100;
+        const tiltY = (relativeX - 0.5) * -100;
 
         const newTransform = `perspective(700px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(0.98, 0.98, 0.98)`;
 
@@ -44,4 +44,4 @@ const BentoTilt = ({ children, className = "" }) => {
     );
 };
 
-export default BentoTilt;
+export default TiltFast;
